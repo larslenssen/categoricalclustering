@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "categoricalclustering"
+authors = [
+    {name = "Lars Lenssen", email = "lars.lenssen@tu-dortmund.de"}
+]
+description = "Clustering for Categorical Data with Relative Entropy Dissimilarity in Python"
+version = "0.0.1"
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+    "pandas",
+    "matplotlib",
+    "plotly",
+    "numpy",
+    "tqdm",
+    "numba"
+]
