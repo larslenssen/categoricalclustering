@@ -137,7 +137,7 @@ def mrec(data, weights = None):
 	:rtype: float
 	"""
     if weights is None:
-        weights = pd.Series(np.ones(len(df.columns)), index=df.columns)
+        weights = pd.Series(np.ones(len(data.columns)), index=data.columns)
 
     weights = weights.values
 
@@ -189,7 +189,7 @@ def ares(data, weights = None):
 	:rtype: float
 	"""
     if weights is None:
-        weights = pd.Series(np.ones(len(df.columns)), index=df.columns)
+        weights = pd.Series(np.ones(len(data.columns)), index=data.columns)
 
     weights = weights.values
 	
@@ -213,17 +213,23 @@ def ares(data, weights = None):
     return ares
 
 
-def analyse_linkagematrix(df, matrix, weights, number_of_cluster, c_probabilities_categorical, title=None):
+def analyse_linkagematrix(df, matrix, weights, number_of_cluster, title=None):
   df_temp = df.copy()
   # Form flat clusters from the hierarchical clustering defined by the linkage matrix Z
   df_temp['cluster'] = fcluster(matrix, number_of_cluster, criterion='maxclust')
   num_clusters = len(df_temp['cluster'].unique())
+  #moved in from top level cell
+  binary_maximum = np.amax(df_temp)
+  c_probabilities_categorical = calculate_probabilities_categorical(df_temp, binary_maximum)
   prototypes = get_prototypes(df_temp.values, num_clusters, c_probabilities_categorical, weights.values.astype(np.float64))
   plot_dendogram(matrix, title + f'quality of the clustering: {round(categorical_cqm(df.values, num_clusters, c_probabilities_categorical, weights.values.astype(np.float64)), 2)}', number_of_cluster)
   plot_clusters_plotly(df_temp, prototypes)
 
 def analyse_clustering(df, labels, number_of_cluster, weights, c_probabilities_categorical, title=None):
   # Form flat clusters from the hierarchical clustering defined by the linkage matrix Z
+  #moved in from top level cell
+  binary_maximum = np.amax(df)
+  c_probabilities_categorical = calculate_probabilities_categorical(df, binary_maximum)
   df['cluster'] = (labels + 1).astype(np.int64)
   num_clusters = len(df['cluster'].unique())
   prototypes = get_prototypes(df.values, num_clusters, c_probabilities_categorical, weights.values.astype(np.float64))
