@@ -1,9 +1,9 @@
 import pandas as pd
-from scipy.cluster.hierarchy import fcluster, dendrogram
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.cluster.hierarchy import dendrogram
 
 def plot_clusters_plotly(df, prototypes=None, title=None):
   # Get the unique clusters
@@ -88,7 +88,7 @@ def plot_dendogram(matrix, name, num_clusters=None):
         plt.text(best_values['x'], best_values['y'] + 0.01*maxdist, f"{color}", va='center', ha='center')
   plt.show()
 
-
+#@jit(nopython=True)
 def calculate_counts_categorical(X, bin_max):
   # X = X.reshape(1, -1).astype(np.int64, copy=False) if X.ndim == 1 else X.astype(np.int64, copy=False)
   if X.ndim == 1: X = X.copy().reshape(1, -1)
@@ -153,26 +153,10 @@ def cat_sim(X, Y, p, weights):
     d =  0
     for i in range(1, XYcounts.shape[1]):
         for j in range(len(XYcounts)):
-            if p[j, i-1] == 0.0: continue # never in the data set
+            if p[j, i-1] == 0.0 or XYlen: continue # never in the data set
             p_i = XYcounts[j,i] / XYlen
             if p_i > 0:
               p_d = p[j, i-1]
               d += weights[i-1] * p_i * np.log2(p_i  / p_d)
     return d
 
-
-def analyse_linkagematrix(df, matrix, weights, number_of_cluster, c_probabilities_categorical, title=None):
-  df_temp = df.copy()
-  # Form flat clusters from the hierarchical clustering defined by the linkage matrix Z
-  df_temp['cluster'] = fcluster(matrix, number_of_cluster, criterion='maxclust')
-  num_clusters = len(df_temp['cluster'].unique())
-  prototypes = get_prototypes(df_temp.values, num_clusters, c_probabilities_categorical, weights.values.astype(np.float64))
-  plot_dendogram(matrix, title + f'quality of the clustering: {round(categorical_cqm(df.values, num_clusters, c_probabilities_categorical, weights.values.astype(np.float64)), 2)}', number_of_cluster)
-  plot_clusters_plotly(df_temp, prototypes)
-
-def analyse_clustering(df, labels, number_of_cluster, weights, c_probabilities_categorical, title=None):
-  # Form flat clusters from the hierarchical clustering defined by the linkage matrix Z
-  df['cluster'] = (labels + 1).astype(np.int64)
-  num_clusters = len(df['cluster'].unique())
-  prototypes = get_prototypes(df.values, num_clusters, c_probabilities_categorical, weights.values.astype(np.float64))
-  plot_clusters_plotly(df, prototypes, title + f'quality of the clustering: {round(categorical_cqm(df.values, num_clusters, c_probabilities_categorical, weights.values.astype(np.float64)),2)}')

@@ -21,7 +21,8 @@ import numpy as np
 import pandas as pd
 from numba import jit
 from tqdm.auto import trange
-from visualization import get_prototypes, plot_dendogram, plot_clusters_plotly
+from . import visualization 
+from scipy.cluster.hierarchy import fcluster
 
 class catclustResult:
 	"""
@@ -116,8 +117,8 @@ def catred(df, weights=None):
     return catclustResult(linkage_matrix, binary_maximum, c_probabilities_categorical, pnorm)
 
 
-@jit(nopython=True)
-def mrec(data, weights = None):
+#@jit(nopython=True)
+def mrec(df, weights = None):
     """Minimum Relative Entropy Contrast (MREC)
 
 	References:
@@ -136,16 +137,17 @@ def mrec(data, weights = None):
 	:return: ARES
 	:rtype: float
 	"""
+    data = df.values
     if weights is None:
         weights = pd.Series(np.ones(len(data.columns)), index=data.columns)
 
     weights = weights.values
-
+    
         #moved in from top level cell
     binary_maximum = np.amax(data)
     c_probabilities_categorical = calculate_probabilities_categorical(data, binary_maximum)
-    number_of_cluster = data['cluster'].nunique()
-
+    number_of_cluster = df['cluster'].nunique()
+    
     # Create a 2D numpy array of zeros
     cluster_counts = np.zeros((number_of_cluster, binary_maximum+1, data.shape[1]), dtype=np.int64)
     cluster_index = data.shape[1] - 1
@@ -168,8 +170,8 @@ def mrec(data, weights = None):
         if mrec_clust_tmp > mrec: mrec = mrec_clust_tmp
     return mrec
 
-@jit(nopython=True)
-def ares(data, weights = None):
+#@jit(nopython=True)
+def ares(df, weights = None):
     """Average Relative Entropy Score (ARES)
 
 	References:
@@ -188,6 +190,7 @@ def ares(data, weights = None):
 	:return: MREC
 	:rtype: float
 	"""
+    data = df.values
     if weights is None:
         weights = pd.Series(np.ones(len(data.columns)), index=data.columns)
 
@@ -196,7 +199,7 @@ def ares(data, weights = None):
 	#moved in from top level cell
     binary_maximum = np.amax(data)
     c_probabilities_categorical = calculate_probabilities_categorical(data, binary_maximum)
-    number_of_cluster = data['cluster'].nunique()
+    number_of_cluster = df['cluster'].nunique()
 
     # Create a 2D numpy array of zeros
     cluster_counts = np.zeros((number_of_cluster, binary_maximum+1, data.shape[1]))
@@ -219,29 +222,29 @@ def analyse_linkagematrix(df, matrix, weights, number_of_cluster, title=None):
   df_temp['cluster'] = fcluster(matrix, number_of_cluster, criterion='maxclust')
   num_clusters = len(df_temp['cluster'].unique())
   #moved in from top level cell
-  binary_maximum = np.amax(df_temp)
-  c_probabilities_categorical = calculate_probabilities_categorical(df_temp, binary_maximum)
-  prototypes = get_prototypes(df_temp.values, num_clusters, c_probabilities_categorical, weights.values.astype(np.float64))
-  plot_dendogram(matrix, title + f'quality of the clustering: {round(categorical_cqm(df.values, num_clusters, c_probabilities_categorical, weights.values.astype(np.float64)), 2)}', number_of_cluster)
-  plot_clusters_plotly(df_temp, prototypes)
+  binary_maximum = np.amax(df)
+  c_probabilities_categorical = calculate_probabilities_categorical(df.values, binary_maximum)
+  prototypes = visualization.get_prototypes(df_temp.values, num_clusters, c_probabilities_categorical, weights.values.astype(np.float64))
+  visualization.plot_dendogram(matrix, title + f'quality of the clustering (MREC): {round(mrec(df_temp, weights), 2)}', number_of_cluster)
+  visualization.plot_clusters_plotly(df_temp, prototypes)
 
-def analyse_clustering(df, labels, number_of_cluster, weights, c_probabilities_categorical, title=None):
+def analyse_clustering(df, labels, number_of_cluster, weights, title=None):
   # Form flat clusters from the hierarchical clustering defined by the linkage matrix Z
   #moved in from top level cell
   binary_maximum = np.amax(df)
-  c_probabilities_categorical = calculate_probabilities_categorical(df, binary_maximum)
+  c_probabilities_categorical = calculate_probabilities_categorical(df.values, binary_maximum)
   df['cluster'] = (labels + 1).astype(np.int64)
   num_clusters = len(df['cluster'].unique())
-  prototypes = get_prototypes(df.values, num_clusters, c_probabilities_categorical, weights.values.astype(np.float64))
-  plot_clusters_plotly(df, prototypes, title + f'quality of the clustering: {round(categorical_cqm(df.values, num_clusters, c_probabilities_categorical, weights.values.astype(np.float64)),2)}')
+  prototypes = visualization.get_prototypes(df.values, num_clusters, c_probabilities_categorical, weights.values.astype(np.float64))
+  visualization.plot_clusters_plotly(df, prototypes, title + f'quality of the clustering: {round(mrec(df, weights),2)}')
 
 
-@jit(nopython=True)
+#@jit(nopython=True)
 def calculate_probabilities_categorical(X, bin_max):
     return calculate_counts_categorical(X, bin_max) / len(X)
 
 
-@jit(nopython=True)
+#@jit(nopython=True)
 def calculate_counts_categorical(X, bin_max):
     #X = X.reshape(1, -1).astype(np.int64, copy=False) if X.ndim == 1 else X.astype(np.int64, copy=False)
     if X.ndim == 1: X = X.copy().reshape(1, -1)
@@ -250,7 +253,7 @@ def calculate_counts_categorical(X, bin_max):
         counts[:np.bincount(X[:, i]).size, i] = np.bincount(X[:, i])
     return counts
 
-@jit(nopython=True)
+#@jit(nopython=True)
 def init_distance_matrix(cluster_counts, p, pnorm, weights, binary_maximum):
     n_lm = len(cluster_counts)
     n = int((n_lm + 1) / 2)
@@ -262,7 +265,7 @@ def init_distance_matrix(cluster_counts, p, pnorm, weights, binary_maximum):
     np.fill_diagonal(distance_matrix, 0)
     return distance_matrix
 
-@jit(nopython=True)
+#@jit(nopython=True)
 def update_distance_matrix(cluster_counts, distance_matrix, i, p, pnorm, weights, binary_maximum):
     #max_value = binary_maximum
     for x in range(i+1):
@@ -271,7 +274,7 @@ def update_distance_matrix(cluster_counts, distance_matrix, i, p, pnorm, weights
         distance_matrix[x, i] = distance_matrix[i, x]
     distance_matrix[i, i] = 0
 
-@jit(nopython=True)
+#@jit(nopython=True)
 def find_closest_clusters(distance_matrix, new_index):
     min_distance = np.inf
     closest_clusters = (-1, -1, np.inf)
@@ -318,11 +321,11 @@ def merge_onehot_categories(df):
 
     return df
 
-@jit(nopython=True)
+#@jit(nopython=True)
 def red(X, Y, p, pnorm, weights):
   return np.power(2, -res(X,Y,p,weights) / pnorm)
 
-@jit(nopython=True)
+#@jit(nopython=True)
 def res(X, Y, p, weights):
     XYcounts = X
     XYlen = X[0,0]
@@ -339,7 +342,7 @@ def res(X, Y, p, weights):
               d += weights[i-1] * p_i * np.log2(p_i  / p_d)
     return d
 
-@jit(nopython=True)
+#@jit(nopython=True)
 def res_dif(X, Y, p, weights):
   sim_union = res(X,Y,p,weights)
   #if Y is None: return np.power(2, -sim_union)
