@@ -17,17 +17,47 @@ If you use this code in scientific work, please cite above paper. Thank you.
 
 ## Installation
 
-### Installation with pip or conda
+### Installation with pip
 
-### Compilation from source
+PyPi is pending 
 
 You need to have Python 3 installed.
 
+```sh
+pip install git+https://github.com/larslenssen/categoricalclustering
+```
+
+or
+
+```sh
+# activate your desired virtual environment first, then:
 git clone https://github.com/larslenssen/categorical-clustering.git
-cd categorical-clustering
+cd categoricalclustering
+# build and install the package:
+pip install -q build
+python -m build
+# change the version
+pip install dist/categoricalclustering-X.X.X-py3-none-any.whl
+```
+
+
+
+
+## A Comprehensive Guide to Clustering Categorical Data 
+
+The computational steps have been implemented within a Google Colab notebook. Researchers and practitioners can access this notebook to review, replicate, or build upon the procedures outlined.
+
+The Colab notebook is available at the following URL: TODO.
+
+To cluster a dataset comprising categorical or binary variables, it is crucial to first comprehend the data's structure. Determine whether the dataset is binary or categorical. If the data is binary, it is advisable to convert it into categorical form. This conversion process can be facilitated using the ```merge_onehot_categories``` method, which is included in our Python package. This method is also employed as a step (**Data Preprocessing**) within the provided Colab Notebook for ease of implementation.
+
+To decide which features are important for the data set, it makes sense to carry out a correlation analysis. Common methods such as Cramér's V, Tschuprow's T, and Pearson correlation coefficient are implemented in the notebook (**Correlation Analysis**). 
+
+Following a thorough analysis or based on expert knowledge, it may be appropriate to assign different weights to the features for the cluster analysis (**Customize Feature Weights**). In cases where there is uncertainty regarding the weighting of features, it is advisable to perform the cluster analysis unweighted.
+
+After selecting an appropriate clustering method (**Select Clustering Method**) — hierarchical methods such as catRED are particularly recommended — the results should be analyzed to determine the most suitable clustering solution.
 
 ## Example
-
 
 ## Implemented Algorithms
 
