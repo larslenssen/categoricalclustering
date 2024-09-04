@@ -49,7 +49,7 @@ pip install dist/categoricalclustering-X.X.X-py3-none-any.whl
 
 The computational steps have been implemented within a Google Colab notebook. Researchers and practitioners can access this notebook to review, replicate, or build upon the procedures outlined.
 
-The Colab notebook is available at the following URL: TODO.
+The Colab notebook is available at the following URL: [clustering-categorical-data](https://colab.research.google.com/drive/1RZG0hyNUr-VKCe8dtDZR32loU9Euryi-?usp=sharing).
 
 To cluster a dataset comprising categorical or binary variables, it is crucial to first comprehend the data's structure. Determine whether the dataset is binary or categorical. If the data is binary, it is advisable to convert it into categorical form. This conversion process can be facilitated using the ```merge_onehot_categories``` method, which is included in our Python package. This method is also employed as a step (**Data Preprocessing**) within the provided Colab Notebook for ease of implementation.
 
