@@ -7,9 +7,11 @@ For further details on the implemented algorithm catRED and the evaluation measu
 > Lars Lenssen, Philip Stahmann, Christian Janiesch, Erich Schubert  
 > **Archetype Discovery from Taxonomies:**  
 > **A Method to Cluster Small Datasets of Categorical Data**  
-> 58th Hawaii International Conference on System Sciences, HICSS 2025.  
+> TBD 
+<!-- +> 58th Hawaii International Conference on System Sciences, HICSS 2025.  
 > DOI
 > Preprint: 
++ -->
 
 If you use this code in scientific work, please cite above paper. Thank you.
 
@@ -57,7 +59,22 @@ Following a thorough analysis or based on expert knowledge, it may be appropriat
 
 After selecting an appropriate clustering method (**Select Clustering Method**) — hierarchical methods such as catRED are particularly recommended — the results should be analyzed to determine the most suitable clustering solution.
 
+![dendogram](https://github.com/larslenssen/categoricalclustering/blob/main/documentation/dendogram.png?raw=true)
+![cluster distribution](https://github.com/larslenssen/categoricalclustering/blob/main/documentation/cluster_dist.png?raw=true)
+
+Results for various numbers of clusters should be compared to evaluate their effectiveness. Once a preferred clustering solution is identified, it can be exported (**Export selected clustering**) for further analysis and processing.
+
 ## Example
+
+The Colab Notebook is provided in a slightly abbreviated form as a Jupyter Notebook, available within the package under the filename ```example_notebook.ipynb```:
+
+```sh
+df = pd.read_excel("elma2019.xlsx", header=0, index_col=[0]).fillna(0.0).astype(np.int64)
+df = cc.merge_onehot_categories(df)
+weights = pd.Series(np.ones(len(df.columns)), index=df.columns)
+catclustres = cc.catred(df, weights=weights)
+cc.analyse_linkagematrix(df, catclustres.linkage_matrix, weights, 4, title=f' Choosing 4 clusters, ')
+```
 
 ## Implemented Algorithms
 
