@@ -1,8 +1,8 @@
 # Clustering for Categorical Data with Relative Entropy Dissimilarity in Python
 
-This package provides best practices for clustering of categorical data sets. It implements catRED: Clustering for Categorical Data with Relative Entropy Dissimilarity.
+This package provides best practices for clustering of categorical data sets. It implements CatRED: Clustering for Categorical Data with Relative Entropy Dissimilarity.
 
-For further details on the implemented algorithm catRED and the evaluation measures MREC and ARES, see:
+For further details on the implemented algorithm CatRED and the evaluation measures MREC and ARES, see:
 
 > Lars Lenssen, Philip Stahmann, Christian Janiesch, Erich Schubert  
 > **Archetype Discovery from Taxonomies:**  
@@ -57,12 +57,12 @@ To decide which features are important for the data set, it makes sense to carry
 
 Following a thorough analysis or based on expert knowledge, it may be appropriate to assign different weights to the features for the cluster analysis (**Customize Feature Weights**). In cases where there is uncertainty regarding the weighting of features, it is advisable to perform the cluster analysis unweighted.
 
-After selecting an appropriate clustering method (**Select Clustering Method**) — hierarchical methods such as catRED are particularly recommended — the results should be analyzed to determine the most suitable clustering solution.
+After selecting an appropriate clustering method (**Select Clustering Method**) — hierarchical methods such as CatRED are particularly recommended — the results should be analyzed to determine the most suitable clustering solution.
 
 ![dendogram](https://github.com/larslenssen/categoricalclustering/blob/main/documentation/dendogram.png?raw=true)
 ![cluster distribution](https://github.com/larslenssen/categoricalclustering/blob/main/documentation/cluster_dist.png?raw=true)
 
-Results for various numbers of clusters should be compared to evaluate their effectiveness. Once a preferred clustering solution is identified, it can be exported (**Export selected clustering**) for further analysis and processing.
+Results for various numbers of clusters should be compared to evaluate their quality. Once a preferred clustering solution is identified, it can be exported (**Export selected clustering**) for further analysis and processing.
 
 ## Example
 
