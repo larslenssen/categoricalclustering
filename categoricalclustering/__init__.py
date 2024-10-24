@@ -156,7 +156,7 @@ def mrec(df, weights = None):
       cluster_counts[data[i,cluster_index]-1] += np.hstack((np.zeros((binary_maximum+1, 1), dtype=np.int64), calculate_counts_categorical(data[i,:-1], binary_maximum)))
       cluster_counts[data[i,cluster_index]-1, 0, 0] += 1
     # Initialize the cluster quality value
-    mrec = float('-inf')
+    mrec = float('inf')
     # calculate for each ccluster
     mrec_clust_best = float('-inf')
     for i in range(number_of_cluster):
@@ -167,7 +167,7 @@ def mrec(df, weights = None):
             mrec_clust_tmp = res(cluster_counts[i] + cluster_counts[j], Y=None, p=c_probabilities_categorical, weights=weights)
             if mrec_clust_tmp > mrec_clust_best: mrec_clust_best = mrec_clust_tmp
         mrec_clust_tmp = mrec_clust_own - mrec_clust_best
-        if mrec_clust_tmp > mrec: mrec = mrec_clust_tmp
+        if mrec_clust_tmp < mrec: mrec = mrec_clust_tmp
     return mrec
 
 #@jit(nopython=True)
