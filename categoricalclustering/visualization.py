@@ -98,7 +98,7 @@ def calculate_counts_categorical(X, bin_max):
   return counts
 
 
-def get_prototypes(data, number_of_cluster, p, weights):
+def get_prototypes(data, number_of_cluster):
   max_value = np.amax(data)
   counts_overall = calculate_counts_categorical(data[:, :-1], max_value)
   # Create a 2D numpy array of zeros

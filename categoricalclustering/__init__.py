@@ -128,7 +128,8 @@ def coolcat(df, k, num_batches=10, refit_proportion=0.4):
 	"""
     cc = coolcat_.CoolCat(k)
     result = cc.cluster(df, num_batches, refit_proportion)
-    return result
+
+    return catred_.catclustResult(None, None, None, None, result)
 
 def limbo(df, k, tree_b=5, max_nodes=30):
     """Limbo
@@ -140,6 +141,12 @@ def limbo(df, k, tree_b=5, max_nodes=30):
     | Advances in Database Technology - {EDBT} 2004
     | DOI: 10.1007/978-3-540-24741-8\_9
 
+    Information Bottleneck Algorithm: 
+
+    | M.Stark, J.Lewandowsky:
+    | Information Bottleneck Algorithms in Python
+    | https://goo.gl/QjBTZf
+
 	:param df: import data with column 'cluster' for the assignment
 	:type df: pandas.DataFrame
     :param k: number of clusters
@@ -150,7 +157,7 @@ def limbo(df, k, tree_b=5, max_nodes=30):
 	"""
     alg = limbo_.Limbo(tree_b, max_nodes)
     result, center = alg.fit(df, k)
-    return result
+    return catred_.catclustResult(None, None, None, None, result)
 
 def merge_onehot_categories(df):
     """
@@ -163,6 +170,6 @@ def merge_onehot_categories(df):
 def analyse_linkagematrix(df, matrix, weights, number_of_cluster, title=None):
   catred_.analyse_linkagematrix(df, matrix, weights, number_of_cluster, title)
 
-def analyse_clustering(df, labels, number_of_cluster, weights, title=None):
+def analyse_clustering(df, title=None):
   # Form flat clusters from the hierarchical clustering defined by the linkage matrix Z
-  catred_.analyse_clustering(df, labels, number_of_cluster, weights, title)
+  catred_.analyse_clustering(df, title)

@@ -41,15 +41,19 @@ class catclustResult:
 	:param pnorm: pnorm
 	:type pnorm: float
 
+    :param clusters: cluster assignments, only for non hierarchical clustering
+	:type data: pandas.DataFrame
+
 	"""
-	def __init__(self, linkage_matrix, binary_maximum=None, c_probabilities_categorical=None, pnorm=None):
+	def __init__(self, linkage_matrix=None, binary_maximum=None, c_probabilities_categorical=None, pnorm=None, clusters=None):
 		self.linkage_matrix = linkage_matrix
 		self.binary_maximum = binary_maximum
 		self.c_probabilities_categorical = c_probabilities_categorical
 		self.pnorm = pnorm
+		self.clusters = clusters
 
 	def __repr__(self):
-		return f"catclustResult(linkage_matrix={self.linkage_matrix}, binary_maximum={self.binary_maximum}, c_probabilities_categorical={self.c_probabilities_categorical}, pnorm={self.pnorm})"
+		return f"catclustResult(linkage_matrix={self.linkage_matrix}, binary_maximum={self.binary_maximum}, c_probabilities_categorical={self.c_probabilities_categorical}, pnorm={self.pnorm}, clusters={self.clusters})"
     
 
 def catred(df, weights=None):
@@ -140,7 +144,7 @@ def mrec(df, weights = None):
 	"""
     data = df.values
     if weights is None:
-        weights = pd.Series(np.ones(len(data.columns)), index=data.columns)
+        weights = pd.Series(np.ones(len(df.columns)), index=df.columns)
 
     weights = weights.values
     
@@ -280,15 +284,12 @@ def analyse_linkagematrix(df, matrix, weights, number_of_cluster, title=None):
   visualization.plot_dendogram(matrix, title + f'quality of the clustering (MREC): {round(mrec(df_temp, weights), 2)}', number_of_cluster)
   visualization.plot_clusters_plotly(df_temp, prototypes)
 
-def analyse_clustering(df, labels, number_of_cluster, weights, title=None):
+def analyse_clustering(df, title=None):
   # Form flat clusters from the hierarchical clustering defined by the linkage matrix Z
   #moved in from top level cell
-  binary_maximum = np.amax(df)
-  c_probabilities_categorical = calculate_probabilities_categorical(df.values, binary_maximum)
-  df['cluster'] = (labels + 1).astype(np.int64)
   num_clusters = len(df['cluster'].unique())
-  prototypes = visualization.get_prototypes(df.values, num_clusters, c_probabilities_categorical, weights.values.astype(np.float64))
-  visualization.plot_clusters_plotly(df, prototypes, title + f'quality of the clustering: {round(mrec(df, weights),2)}')
+  prototypes = visualization.get_prototypes(df.values, num_clusters)
+  visualization.plot_clusters_plotly(df, prototypes, title + f'quality of the clustering: {round(mrec(df),2)}')
 
 
 #@jit(nopython=True)

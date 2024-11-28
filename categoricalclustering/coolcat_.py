@@ -1,3 +1,14 @@
+"""Coolcat
+
+	References:
+
+    | Daniel Barbara, Yi Li and Julia Couto:
+    | COOLCAT: an entropy-based algorithm for categorical clustering
+    | Proceedings of the 2002 ACM CIKM
+    | DOI: 10.1145/584792.584888
+    
+"""
+
 import numpy as np
 import pandas as pd
 from tqdm.auto import tqdm

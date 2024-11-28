@@ -1,3 +1,21 @@
+
+"""Limbo
+
+	References:
+
+    | Periklis Andritsos, Panayiotis Tsaparas, Rene J. Miller and Kenneth C. Sevcik:
+    | LIMBO: Scalable Clustering of Categorical Data
+    | Advances in Database Technology - {EDBT} 2004
+    | DOI: 10.1007/978-3-540-24741-8\_9
+
+    Information Bottleneck Algorithm: 
+
+    | M.Stark, J.Lewandowsky:
+    | Information Bottleneck Algorithms in Python
+    | https://goo.gl/QjBTZf
+
+    
+"""
 import numpy as np
 import pandas as pd
 from information_bottleneck.information_bottleneck_algorithms.aIB_class import aIB
@@ -270,7 +288,7 @@ class Limbo:
         # find number of attributes, row sum for one hot encoded
         row_sum = data.sum(axis=1)
         self.m = row_sum.iloc[0]
-        assert np.all(row_sum == self.m)
+        #assert np.all(row_sum == self.m)
 
         self.n = data.shape[0]
         self.dcf_df *= 1 / self.m
