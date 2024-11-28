@@ -81,6 +81,9 @@ cc.analyse_linkagematrix(df, catclustres.linkage_matrix, weights, 4, title=f' Ch
 * **catRED** (Lenssen and Stahmann and Janiesch and Schubert, 2025)
 * ARES: Average Relative Entropy Score (Lenssen and Stahmann and Janiesch and Schubert, 2025)
 * MREC: Minimum Relative Entropy Contrast (Lenssen and Stahmann and Janiesch and Schubert, 2025)
+* CU: Category Utility (Gluck and Corter, 1985)
+* COOLCAT (Barbara and Li and Couto, 2002)
+* LIMBO (Andritsos and Tsaparas and Miller and Sevcik, 2004)
 
 ## Contributing to `categorical-clustering`
 

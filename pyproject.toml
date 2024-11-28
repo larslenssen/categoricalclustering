@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools", "setuptools-scm"]
+requires = ["setuptools", "setuptools-scm", "Cython"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,7 +8,7 @@ authors = [
     {name = "Lars Lenssen", email = "lars.lenssen@tu-dortmund.de"}
 ]
 description = "Clustering for Categorical Data with Relative Entropy Dissimilarity in Python"
-version = "0.0.3"
+version = "0.0.5"
 readme = "README.md"
 requires-python = ">=3.7"
 dependencies = [
@@ -19,5 +19,9 @@ dependencies = [
     "tqdm",
     "numba",
     "scipy",
-    "nbformat>=4.2.0"
+    "nbformat>=4.2.0",
+    "openpyxl",
+    "cython",
+    "mako",
+    "ib_base @ git+https://collaborating.tuhh.de/cip3725/ib_base.git"
 ]
