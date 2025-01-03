@@ -22,9 +22,8 @@ class CoolCat:
         self.cluster_centers = []
         self.clustering = None
 
-    def cluster(self, df, num_batches, refit_proportion=0.1):
-        rng = np.random.default_rng()
-
+    def cluster(self, df, num_batches, refit_proportion=0.1, rng = np.random.default_rng()):
+        
         df = df.copy().astype(np.float64)
         df.insert(loc=0, column="p(x)", value=1)
 
@@ -63,7 +62,7 @@ class CoolCat:
 
         # masking is neccessary due to log(0) being inf. Would be ignored by nansum, but still throws errors
         # for entropy, p log p = 0 for lim p = 0
-        log_p[p != 0] = np.log2(p [p!= 0])
+        log_p[p > 0] = np.log2(p [p > 0])
         e = - np.nansum(p * log_p)
         return e
 
