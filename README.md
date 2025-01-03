@@ -78,6 +78,7 @@ The project includes the dataset from Fischer et al. (2020):
 > Marcus Fischer, David Heim, Adrian Hofmann, Christian Janiesch, Christoph Klima, Axel Winkelmann  
 > **A taxonomy and archetypes of smart services for smart living**  
 > Electronic Markets, 30.  
+> DOI: 10.1007/s12525-019-00384-5
 
 ## Implemented Algorithms
 
