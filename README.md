@@ -7,11 +7,8 @@ For further details on the implemented algorithm CatRED and the evaluation measu
 > Lars Lenssen, Philip Stahmann, Christian Janiesch, Erich Schubert  
 > **Archetype Discovery from Taxonomies:**  
 > **A Method to Cluster Small Datasets of Categorical Data**  
-> TBD 
-<!-- +> 58th Hawaii International Conference on System Sciences, HICSS 2025.  
-> DOI
-> Preprint: 
-+ -->
+> 58th Hawaii International Conference on System Sciences, HICSS 2025.  
+> https://hdl.handle.net/10125/108984
 
 If you use this code in scientific work, please cite above paper. Thank you.
 
@@ -76,9 +73,15 @@ catclustres = cc.catred(df, weights=weights)
 cc.analyse_linkagematrix(df, catclustres.linkage_matrix, weights, 4, title=f' Choosing 4 clusters, ')
 ```
 
+The project includes the dataset from Fischer et al. (2020):
+
+> Marcus Fischer, David Heim, Adrian Hofmann, Christian Janiesch, Christoph Klima, Axel Winkelmann  
+> **A taxonomy and archetypes of smart services for smart living**  
+> Electronic Markets, 30.  
+
 ## Implemented Algorithms
 
-* **catRED** (Lenssen and Stahmann and Janiesch and Schubert, 2025)
+* **CatRED** (Lenssen and Stahmann and Janiesch and Schubert, 2025)
 * ARES: Average Relative Entropy Score (Lenssen and Stahmann and Janiesch and Schubert, 2025)
 * MREC: Minimum Relative Entropy Contrast (Lenssen and Stahmann and Janiesch and Schubert, 2025)
 * CU: Category Utility (Gluck and Corter, 1985)

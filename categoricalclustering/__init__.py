@@ -14,7 +14,36 @@ References:
 | Archetype Discovery from Taxonomies:
 | A Method to Cluster Small Datasets of Categorical Data
 | 58th Hawaii International Conference on System Sciences, HICSS 2025
-| DOI
+| https://hdl.handle.net/10125/108984
+
+Related Measures:
+
+- Category Utility (CU)
+
+Reference:
+
+| M. A. Gluck and J. E. Corter:
+| Information Uncertainty and the Utility of Categories
+| Proc. Conf. of Cognitive Science Society. 1985, pp. 283–287
+
+Related Algorithms:
+- COOLCAT
+- Limbo
+
+References:
+
+| Daniel Barbara, Yi Li and Julia Couto:
+| COOLCAT: an entropy-based algorithm for categorical clustering
+| Proceedings of the 2002 ACM CIKM
+| DOI: 10.1145/584792.584888
+
+| Periklis Andritsos, Panayiotis Tsaparas, Rene J. Miller and Kenneth C. Sevcik:
+| LIMBO: Scalable Clustering of Categorical Data
+| Advances in Database Technology - {EDBT} 2004
+| DOI: 10.1007/978-3-540-24741-8\_9
+
+
+
 """
 from . import catred_
 from . import coolcat_
@@ -34,7 +63,7 @@ def catred(df, weights=None):
     | Archetype Discovery from Taxonomies:
     | A Method to Cluster Small Datasets of Categorical Data
     | 58th Hawaii International Conference on System Sciences, HICSS 2025
-    | DOI
+    | https://hdl.handle.net/10125/108984
 
 	:param df: import data
 	:type df: pandas.DataFrame
@@ -56,7 +85,7 @@ def mrec(df, weights = None):
     | Archetype Discovery from Taxonomies:
     | A Method to Cluster Small Datasets of Categorical Data
     | 58th Hawaii International Conference on System Sciences, HICSS 2025
-    | DOI
+    | https://hdl.handle.net/10125/108984
 
 	:param data: import data with column 'cluster' for the assignment
 	:type data: pandas.DataFrame
@@ -78,7 +107,7 @@ def ares(df, weights = None):
     | Archetype Discovery from Taxonomies:
     | A Method to Cluster Small Datasets of Categorical Data
     | 58th Hawaii International Conference on System Sciences, HICSS 2025
-    | DOI
+    | https://hdl.handle.net/10125/108984
 
 	:param data: import data with column 'cluster' for the assignment
 	:type data: pandas.DataFrame

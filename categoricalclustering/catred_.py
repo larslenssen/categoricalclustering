@@ -15,7 +15,7 @@ References:
 | Archetype Discovery from Taxonomies:
 | A Method to Cluster Small Datasets of Categorical Data
 | 58th Hawaii International Conference on System Sciences, HICSS 2025
-| DOI
+| https://hdl.handle.net/10125/108984
 """
 
 import numpy as np
@@ -67,7 +67,7 @@ def catred(df, weights=None):
     | Archetype Discovery from Taxonomies:
     | A Method to Cluster Small Datasets of Categorical Data
     | 58th Hawaii International Conference on System Sciences, HICSS 2025
-    | DOI
+    | https://hdl.handle.net/10125/108984
 
 	:param df: import data
 	:type df: pandas.DataFrame
@@ -132,7 +132,7 @@ def mrec(df, weights = None):
     | Archetype Discovery from Taxonomies:
     | A Method to Cluster Small Datasets of Categorical Data
     | 58th Hawaii International Conference on System Sciences, HICSS 2025
-    | DOI
+    | https://hdl.handle.net/10125/108984
 
 	:param data: import data with column 'cluster' for the assignment
 	:type data: pandas.DataFrame
@@ -185,7 +185,7 @@ def ares(df, weights = None):
     | Archetype Discovery from Taxonomies:
     | A Method to Cluster Small Datasets of Categorical Data
     | 58th Hawaii International Conference on System Sciences, HICSS 2025
-    | DOI
+    | https://hdl.handle.net/10125/108984
 
 	:param data: import data with column 'cluster' for the assignment
 	:type data: pandas.DataFrame
@@ -197,7 +197,7 @@ def ares(df, weights = None):
 	"""
     data = df.values
     if weights is None:
-        weights = pd.Series(np.ones(len(data.columns)), index=data.columns)
+        weights = pd.Series(np.ones(len(df.columns)), index=df.columns)
 
     weights = weights.values
 	
@@ -278,9 +278,7 @@ def analyse_linkagematrix(df, matrix, weights, number_of_cluster, title=None):
   df_temp['cluster'] = fcluster(matrix, number_of_cluster, criterion='maxclust')
   num_clusters = len(df_temp['cluster'].unique())
   #moved in from top level cell
-  binary_maximum = np.amax(df)
-  c_probabilities_categorical = calculate_probabilities_categorical(df.values, binary_maximum)
-  prototypes = visualization.get_prototypes(df_temp.values, num_clusters, c_probabilities_categorical, weights.values.astype(np.float64))
+  prototypes = visualization.get_prototypes(df_temp.values, num_clusters)
   visualization.plot_dendogram(matrix, title + f'quality of the clustering (MREC): {round(mrec(df_temp, weights), 2)}', number_of_cluster)
   visualization.plot_clusters_plotly(df_temp, prototypes)
 
